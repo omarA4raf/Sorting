@@ -138,6 +138,73 @@ public class SortArray {
         System.arraycopy(output, 0, result, 0, result.length);
         return result;
     }
+     //MAX-HEAPIFY :
+    public static void maxHeapify(int[] arr, int i, int n) {
+        int largest = i;
+        int left = 2*i + 1;
+        int right = 2*i + 2;
+
+        if (left < n && arr[left] > arr[largest]) {
+            largest = left;
+        }
+
+        if (right < n && arr[right] > arr[largest]) {
+            largest = right;
+        }
+
+        if (largest != i) {
+            int temp = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = temp;
+            maxHeapify(arr, largest, n);
+        }
+    }
+
+    //BUILD-MAX-HEAP procedure:
+    public static void buildMaxHeap(int[] arr, int n) {
+        for (int i = n/2; i >= 0; i--) {
+            maxHeapify(arr, i, n);
+        }
+    }
+
+    //HEAPSORT:
+    public static int[] heapSort(int[] arr) {
+        int n = arr.length;
+        buildMaxHeap(arr, n);
+        for (int i = n-1; i >= 1; i--) {
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            maxHeapify(arr, 0, i);
+        }
+        return arr;
+    }
+
+    //MAX-HEAP-INSERT and HEAP-EXTRACT-MAX :
+    public static void maxHeapInsert(int[] arr, int key, int n) {
+        n++;
+        arr[n-1] = key;
+        int i = n-1;
+        while (i > 0 && arr[i] > arr[(i-1)/2]) {
+            int temp = arr[i];
+            arr[i] = arr[(i-1)/2];
+            arr[(i-1)/2] = temp;
+            i = (i-1)/2;
+        }
+    }
+
+    public static int heapExtractMax(int[] arr, int n) {
+        if (n < 1) {
+            return -1;
+        }
+        int maxVal = arr[0];
+        arr[0] = arr[n-1];
+        n--;
+        maxHeapify(arr, 0, n);
+        return maxVal;
+    }
+    
+    
     public int[] getArray() {
         return array;
     }
